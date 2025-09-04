@@ -1,19 +1,10 @@
 'use client';
 
-import React, { useState, useMemo, useEffect, useRef } from 'react';
-import Image from 'next/image';
-import Header from '../components/Header';
+import React, { useState, useMemo, useEffect, useRef, Suspense } from 'react';
 import Footer from '../components/Footer';
 import TripCard from '../components/TripCard';
 import { trips } from '../data';
-import {
-  IconMapPin,
-  IconStar,
-  IconClock,
-  IconUsers,
-  IconSearch,
-  IconFilter,
-} from '@tabler/icons-react';
+import { IconSearch, IconFilter } from '@tabler/icons-react';
 import { useSearchParams } from 'next/navigation';
 
 // Define compact filter categories - only the most relevant ones
@@ -26,7 +17,7 @@ const FILTER_CATEGORIES = [
   { id: 'culture', label: 'Culture', value: 'culture' },
 ];
 
-export default function DestinationsPage() {
+function DestinationsContent() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -247,7 +238,7 @@ export default function DestinationsPage() {
       <div className='py-12 sm:py-16 lg:py-20 bg-gradient-to-r from-orange-500 to-orange-600'>
         <div className='max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8'>
           <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6'>
-            Can't Find Your Dream Destination?
+            Can&apos;t Find Your Dream Destination?
           </h2>
           <p className='text-lg sm:text-xl text-orange-100 mb-6 sm:mb-8 max-w-2xl mx-auto'>
             We offer custom travel packages to any destination you desire
@@ -260,5 +251,13 @@ export default function DestinationsPage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function DestinationsPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DestinationsContent />
+    </Suspense>
   );
 }

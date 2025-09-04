@@ -44,7 +44,6 @@ const TripCard: React.FC<TripCardProps> = ({
   variant = 'default',
   departureAirport,
   arrivalAirport,
-  numberOfDays,
 }) => {
   const cardClasses =
     variant === 'mobile'

@@ -22,7 +22,6 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
   name,
   initials,
   title,
-  rating,
   review,
   travelDate,
   gradientFrom,
@@ -77,7 +76,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
       </div>
 
       <p className='text-sm sm:text-base text-gray-700 leading-relaxed mb-3 sm:mb-4'>
-        "{review}"
+        &ldquo;{review}&rdquo;
       </p>
 
       <div className='text-xs sm:text-sm text-gray-500'>

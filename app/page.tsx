@@ -2,17 +2,9 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import {
   IconMapPin,
-  IconSearch,
-  IconPlayerPlay,
   IconStar,
-  IconClock,
-  IconUsers,
-  IconPlane,
-  IconCamera,
-  IconHeart,
   IconShield,
   IconAward,
   IconHeadset,
@@ -24,7 +16,6 @@ import {
   IconX,
   IconZoomIn,
 } from '@tabler/icons-react';
-import Header from './components/Header';
 import Footer from './components/Footer';
 import TripCard from './components/TripCard';
 import ReviewCard from './components/ReviewCard';
@@ -62,7 +53,7 @@ const AnimatedStat = ({
   );
 };
 
-function page() {
+function Page() {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
@@ -156,7 +147,7 @@ function page() {
       scrollContainer.addEventListener('scroll', handleScroll);
       return () => scrollContainer.removeEventListener('scroll', handleScroll);
     }
-  }, [trips.length]);
+  }, []);
 
   // Update current review index when scrolling manually
   useEffect(() => {
@@ -184,7 +175,7 @@ function page() {
       return () =>
         scrollContainer.removeEventListener('scroll', handleReviewsScroll);
     }
-  }, [reviews.length]);
+  }, []);
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -197,7 +188,6 @@ function page() {
       const cardSpacing = cardWidth + gap;
 
       const currentScrollLeft = scrollRef.current.scrollLeft;
-      const containerWidth = scrollRef.current.clientWidth;
 
       // Calculate which card should be visible
       const calculatedIndex = Math.round(currentScrollLeft / cardSpacing);
@@ -253,7 +243,6 @@ function page() {
       const cardSpacing = cardWidth + gap;
 
       const currentScrollLeft = reviewsScrollRef.current.scrollLeft;
-      const containerWidth = reviewsScrollRef.current.clientWidth;
 
       // Calculate which card should be visible
       const calculatedIndex = Math.round(currentScrollLeft / cardSpacing);
@@ -431,7 +420,7 @@ function page() {
               className='flex overflow-x-auto gap-4 snap-x snap-mandatory scroll-smooth scrollbar-hide -mx-4 px-4 '
               style={{ height: '580px' }}
             >
-              {trips.map((trip, index) => (
+              {trips.map((trip) => (
                 <div
                   key={trip.id}
                   className='snap-center shrink-0 w-full h-full'
@@ -515,7 +504,7 @@ function page() {
               Why Choose GoPravasa?
             </h2>
             <p className='text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4'>
-              We're committed to making your travel dreams come true with
+              We&apos;re committed to making your travel dreams come true with
               exceptional service, unbeatable value, and unforgettable
               experiences
             </p>
@@ -547,7 +536,8 @@ function page() {
               </h3>
               <p className='text-sm sm:text-base text-gray-600 leading-relaxed'>
                 Unbeatable prices with no hidden costs. We guarantee the best
-                value for your money or we'll match any better offer you find.
+                value for your money or we&apos;ll match any better offer you
+                find.
               </p>
             </div>
 
@@ -590,7 +580,8 @@ function page() {
               </h3>
               <p className='text-sm sm:text-base text-gray-600 leading-relaxed'>
                 Explore 50+ countries with our carefully curated packages. From
-                exotic beaches to cultural heritage sites, we've got it all.
+                exotic beaches to cultural heritage sites, we&apos;ve got it
+                all.
               </p>
             </div>
 
@@ -772,7 +763,7 @@ function page() {
               What Our Travelers Say
             </h2>
             <p className='text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4'>
-              Don't just take our word for it - hear from our satisfied
+              Don&apos;t just take our word for it - hear from our satisfied
               customers who have experienced amazing journeys with us
             </p>
           </div>
@@ -928,4 +919,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

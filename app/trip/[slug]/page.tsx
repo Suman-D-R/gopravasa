@@ -2,15 +2,12 @@
 
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import {
-  IconMapPin,
   IconClock,
   IconUsers,
   IconPlane,
   IconStar,
-  IconArrowLeft,
   IconCalendar,
   IconShield,
   IconAward,
@@ -37,7 +34,7 @@ export default function TripPage() {
                   Trip Not Found
                 </h1>
                 <p className='text-lg text-gray-600 mb-8'>
-                  The trip you're looking for doesn't exist.
+                  The trip you&apos;re looking for doesn&apos;t exist.
                 </p>
               </div>
             </div>
@@ -300,7 +297,7 @@ export default function TripPage() {
           <div className='mb-12 sm:mb-16'>
             <div className='text-center mb-8'>
               <h2 className='text-2xl sm:text-3xl font-light text-gray-900 mb-4'>
-                What You'll Experience
+                What You&apos;ll Experience
               </h2>
               <div className='w-16 h-1 bg-orange-500 mx-auto'></div>
             </div>
@@ -352,7 +349,7 @@ export default function TripPage() {
           <div className='mb-12 sm:mb-16'>
             <div className='text-center mb-8'>
               <h2 className='text-2xl sm:text-3xl font-light text-gray-900 mb-4'>
-                What's Included
+                What&apos;s Included
               </h2>
               <div className='w-16 h-1 bg-orange-500 mx-auto'></div>
             </div>

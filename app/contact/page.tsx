@@ -25,8 +25,8 @@ export default function ContactPage() {
               Get in <span className='text-orange-500'>Touch</span>
             </h1>
             <p className='text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed'>
-              Have questions about your next adventure? We're here to help you
-              plan the perfect trip
+              Have questions about your next adventure? We&apos;re here to help
+              you plan the perfect trip
             </p>
           </div>
         </div>
@@ -43,8 +43,8 @@ export default function ContactPage() {
                   Contact Information
                 </h2>
                 <p className='text-lg text-gray-600 mb-8'>
-                  Reach out to us through any of these channels. We're available
-                  24/7 to assist you.
+                  Reach out to us through any of these channels. We&apos;re
+                  available 24/7 to assist you.
                 </p>
               </div>
 
@@ -290,7 +290,7 @@ export default function ContactPage() {
               </h3>
               <p className='text-gray-600'>
                 Yes! We specialize in creating personalized travel experiences.
-                Contact us with your requirements and we'll design a custom
+                Contact us with your requirements and we&apos;ll design a custom
                 package just for you.
               </p>
             </div>

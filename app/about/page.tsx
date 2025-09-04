@@ -196,7 +196,7 @@ export default function AboutPage() {
                 Customer Experience
               </p>
               <p className='text-gray-600'>
-                Dedicated to making every customer's journey exceptional
+                Dedicated to making every customer&apos;s journey exceptional
               </p>
             </div>
           </div>
