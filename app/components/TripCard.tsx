@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { IconStar, IconClock, IconUsers, IconPlane } from '@tabler/icons-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface Trip {
   id: string;
@@ -162,7 +162,6 @@ const TripCard: React.FC<TripCardProps> = ({ trip }) => {
     variant = 'default',
     departureAirport,
     arrivalAirport,
-    numberOfDays,
     countdownTo,
   } = trip;
 

@@ -20,7 +20,6 @@ import {
   IconChevronLeft,
   IconChevronRight,
 } from '@tabler/icons-react';
-import Footer from './components/Footer';
 import TripCard from './components/TripCard';
 import ReviewCard from './components/ReviewCard';
 import { useAnimatedCounter } from './hooks/useAnimatedCounter';
@@ -62,7 +61,6 @@ function Page() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const reviewsScrollRef = useRef<HTMLDivElement>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const router = useRouter();
@@ -617,7 +615,7 @@ function Page() {
 
           {/* Gallery Grid */}
           <div className='grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6'>
-            {galleryImages.map((image, index) => (
+            {galleryImages.map((image) => (
               <div
                 key={image.id}
                 className='group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105'

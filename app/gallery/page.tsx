@@ -2,53 +2,10 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import {
-  IconMapPin,
-  IconSearch,
-  IconFilter,
-  IconArrowLeft,
-} from '@tabler/icons-react';
+import { IconMapPin } from '@tabler/icons-react';
 import { galleryImages } from '../data';
 
-const categories = [
-  'All',
-  'Beach',
-  'Culture',
-  'Food',
-  'Adventure',
-  'Nature',
-  'Wildlife',
-];
-const sortOptions = ['Alphabetical', 'Location'];
-
 export default function GalleryPage() {
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [searchTerm, setSearchTerm] = useState<string>('');
-  const [sortBy, setSortBy] = useState<string>('Alphabetical');
-  const [showFilters, setShowFilters] = useState<boolean>(false);
-
-  // Filter and sort images
-  const filteredImages = galleryImages
-    .filter((image) => {
-      const matchesCategory =
-        selectedCategory === 'All' || image.category === selectedCategory;
-      const matchesSearch =
-        image.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        image.location.toLowerCase().includes(searchTerm.toLowerCase());
-      return matchesCategory && matchesSearch;
-    })
-    .sort((a, b) => {
-      switch (sortBy) {
-        case 'Alphabetical':
-          return a.title.localeCompare(b.title);
-        case 'Location':
-          return a.location.localeCompare(b.location);
-        default:
-          return 0;
-      }
-    });
-
   return (
     <div className='w-full min-h-screen relative'>
       {/* Hero Section */}
@@ -70,7 +27,7 @@ export default function GalleryPage() {
       <div className='pb-12 sm:py-16'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6'>
-            {filteredImages.map((image) => (
+            {galleryImages.map((image) => (
               <div
                 key={image.id}
                 className='group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105'
@@ -100,14 +57,6 @@ export default function GalleryPage() {
               </div>
             ))}
           </div>
-
-          {filteredImages.length === 0 && (
-            <div className='text-center py-12'>
-              <p className='text-gray-500 text-lg'>
-                No photos found matching your criteria.
-              </p>
-            </div>
-          )}
         </div>
       </div>
     </div>

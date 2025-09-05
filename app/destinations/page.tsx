@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useMemo, useEffect, useRef, Suspense } from 'react';
-import Footer from '../components/Footer';
 import TripCard from '../components/TripCard';
 import { trips } from '../data';
 import { IconSearch, IconFilter } from '@tabler/icons-react';
@@ -191,7 +190,7 @@ function DestinationsContent() {
           {filteredTrips.length > 0 ? (
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8'>
               {filteredTrips.map((trip) => (
-                <TripCard trip={trip} />
+                <TripCard key={trip.id} trip={trip} />
               ))}
             </div>
           ) : (

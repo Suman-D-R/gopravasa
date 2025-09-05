@@ -8,7 +8,6 @@ import {
   IconArrowRight,
   IconSearch,
   IconTag,
-  IconClock,
 } from '@tabler/icons-react';
 
 export default function BlogPage() {

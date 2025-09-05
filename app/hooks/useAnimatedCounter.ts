@@ -20,6 +20,9 @@ export const useAnimatedCounter = ({
   const elementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const currentElement = elementRef.current;
+    if (!currentElement) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !isVisible) {
@@ -32,15 +35,10 @@ export const useAnimatedCounter = ({
       }
     );
 
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
-    }
+    observer.observe(currentElement);
 
     return () => {
-      const currentElement = elementRef.current;
-      if (currentElement) {
-        observer.unobserve(currentElement);
-      }
+      observer.unobserve(currentElement);
     };
   }, [isVisible]);
 
