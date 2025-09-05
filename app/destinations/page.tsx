@@ -191,21 +191,7 @@ function DestinationsContent() {
           {filteredTrips.length > 0 ? (
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8'>
               {filteredTrips.map((trip) => (
-                <TripCard
-                  key={trip.id}
-                  id={trip.id}
-                  title={trip.title}
-                  description={trip.description}
-                  image={trip.image}
-                  duration={trip.duration}
-                  groupSize={trip.groupSize}
-                  price={trip.price}
-                  rating={trip.rating}
-                  badge={trip.badge}
-                  badgeColor={trip.badgeColor}
-                  buttonText='View Details'
-                  variant='default'
-                />
+                <TripCard trip={trip} />
               ))}
             </div>
           ) : (
@@ -248,8 +234,6 @@ function DestinationsContent() {
           </button>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

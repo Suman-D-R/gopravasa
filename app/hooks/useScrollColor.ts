@@ -1,11 +1,17 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 export const useScrollColor = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  
+
+  const pathname = usePathname();
   useEffect(() => {
+    if (pathname === '/destinations' || pathname === '/blog' || pathname === '/about' || pathname === '/contact' || pathname === '/gallery') {
+      setIsScrolled(true);
+      return;
+    }
 
     const handleScroll = () => {
       const scrollHeight = window.scrollY;
@@ -25,7 +31,7 @@ export const useScrollColor = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [pathname]);
 
   return isScrolled;
 };

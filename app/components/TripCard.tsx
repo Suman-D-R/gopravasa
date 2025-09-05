@@ -1,11 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { IconStar, IconClock, IconUsers, IconPlane } from '@tabler/icons-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-interface TripCardProps {
+interface Trip {
   id: string;
   title: string;
   description: string;
@@ -18,48 +19,164 @@ interface TripCardProps {
   badgeColor: string;
   totalSets?: number;
   occupiedSets?: number;
-  linkHref?: string;
   buttonText?: string;
   variant?: 'default' | 'mobile';
+  linkHref?: string;
   departureAirport?: string;
   arrivalAirport?: string;
   numberOfDays?: number;
+  countdownTo?: string; // ISO date string for countdown target
+}
+interface TripCardProps {
+  trip: Trip;
 }
 
-const TripCard: React.FC<TripCardProps> = ({
-  id,
-  title,
-  description,
-  image,
-  duration,
-  groupSize,
-  price,
-  rating,
-  badge,
-  badgeColor,
-  totalSets,
-  occupiedSets,
-  linkHref = `/trip/${id}`,
-  buttonText = 'View More',
-  variant = 'default',
-  departureAirport,
-  arrivalAirport,
-}) => {
-  const cardClasses =
-    variant === 'mobile'
-      ? 'group relative rounded-2xl border border-gray-200 transition-all duration-300 overflow-hidden transform hover:-translate-y-2 h-full'
-      : 'group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-2';
+// Real Countdown Timer Component
+const CountdownTimer: React.FC<{ targetDate: string }> = ({ targetDate }) => {
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+  const [isExpired, setIsExpired] = useState(false);
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const now = new Date().getTime();
+      const target = new Date(targetDate).getTime();
+      const difference = target - now;
+
+      if (difference > 0) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor(
+          (difference % (1000 * 60 * 60)) / (1000 * 60)
+        );
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+        setTimeLeft({ days, hours, minutes, seconds });
+        setIsExpired(false);
+      } else {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        setIsExpired(true);
+      }
+    };
+
+    // Calculate immediately
+    calculateTimeLeft();
+
+    // Update every second
+    const timer = setInterval(calculateTimeLeft, 1000);
+
+    return () => clearInterval(timer);
+  }, [targetDate]);
+
+  if (isExpired) {
+    return (
+      <motion.span
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.3 }}
+        className='text-red-500 font-semibold'
+      >
+        Expired
+      </motion.span>
+    );
+  }
+
+  return (
+    <div className='flex items-center space-x-1 text-xs'>
+      {timeLeft.days > 0 && (
+        <motion.div
+          key={`days-${timeLeft.days}`}
+          initial={{ opacity: 0, y: -10, scale: 0.8 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+          className='flex items-center space-x-1'
+        >
+          <span className='font-bold text-orange-600'>{timeLeft.days}</span>
+          <span className='text-gray-500'>d</span>
+        </motion.div>
+      )}
+
+      <motion.div
+        key={`hours-${timeLeft.hours}`}
+        initial={{ opacity: 0, y: -10, scale: 0.8 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+        className='flex items-center space-x-1'
+      >
+        <span className='font-bold text-orange-600'>
+          {timeLeft.hours.toString().padStart(2, '0')}
+        </span>
+        <span className='text-gray-500'>h</span>
+      </motion.div>
+
+      <motion.div
+        key={`minutes-${timeLeft.minutes}`}
+        initial={{ opacity: 0, y: -10, scale: 0.8 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+        className='flex items-center space-x-1'
+      >
+        <span className='font-bold text-orange-600'>
+          {timeLeft.minutes.toString().padStart(2, '0')}
+        </span>
+        <span className='text-gray-500'>m</span>
+      </motion.div>
+
+      <motion.div
+        key={`seconds-${timeLeft.seconds}`}
+        initial={{ opacity: 0, y: -10, scale: 0.8 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+        className='flex items-center space-x-1'
+      >
+        <span className='font-bold text-orange-600'>
+          {timeLeft.seconds.toString().padStart(2, '0')}
+        </span>
+        <span className='text-gray-500'>s</span>
+      </motion.div>
+    </div>
+  );
+};
+
+const TripCard: React.FC<TripCardProps> = ({ trip }) => {
+  const {
+    id,
+    title,
+    description,
+    image,
+    duration,
+    groupSize,
+    price,
+    rating,
+    badge,
+    badgeColor,
+    totalSets,
+    occupiedSets,
+    linkHref = `/trip/${id}`,
+    variant = 'default',
+    departureAirport,
+    arrivalAirport,
+    numberOfDays,
+    countdownTo,
+  } = trip;
 
   const badgePosition =
     variant === 'mobile' ? 'bottom-4 left-4' : 'top-4 right-4';
 
   return (
-    <div className={cardClasses}>
+    <div className='group relative rounded-2xl border border-gray-200 transition-all duration-300 overflow-hidden transform hover:-translate-y-2 h-full'>
       <div className='relative h-64 overflow-hidden'>
         <Image
           src={image}
           alt={`${title} Destination`}
           fill
+          priority={true}
           className='object-cover group-hover:scale-110 transition-transform duration-300'
         />
 
@@ -92,13 +209,19 @@ const TripCard: React.FC<TripCardProps> = ({
         <div className='flex items-center justify-between text-xs sm:text-sm text-gray-500 mb-3'>
           <div className='flex items-center space-x-1'>
             <IconClock className='w-3 h-3 sm:w-4 sm:h-4' />
-            <span>{duration}</span>
+            {countdownTo ? (
+              <CountdownTimer targetDate={countdownTo} />
+            ) : (
+              <span>{duration}</span>
+            )}
           </div>
           <div className='flex items-center space-x-1'>
             {totalSets && occupiedSets ? (
-              <div className='flex items-center space-x-1'>
+              <div className='flex items-center space-x-1 font-bold'>
                 <span>
-                  Sets left: {totalSets} / {occupiedSets + totalSets}
+                  Sets left:{' '}
+                  <span className=' text-green-600'>{totalSets}</span> /{' '}
+                  {occupiedSets + totalSets}
                 </span>
                 <IconUsers className='w-3 h-3 sm:w-4 sm:h-4' />
               </div>
@@ -145,7 +268,7 @@ const TripCard: React.FC<TripCardProps> = ({
               href={linkHref}
               className='bg-orange-500 hover:bg-orange-600 text-white px-4 sm:px-6 py-2 rounded-full text-sm sm:text-base font-semibold transition-colors w-full  text-center'
             >
-              {buttonText}
+              View More
             </Link>
           </div>
         </div>

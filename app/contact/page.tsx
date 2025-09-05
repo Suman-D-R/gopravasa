@@ -1,8 +1,6 @@
 'use client';
 
 import React from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 import {
   IconMapPin,
   IconPhone,
@@ -15,8 +13,6 @@ import {
 export default function ContactPage() {
   return (
     <div className='w-full min-h-screen'>
-      <Header />
-
       {/* Hero Section */}
       <div className='relative pt-20 pb-16 bg-gradient-to-br from-orange-50 to-white'>
         <div className='max-w-7xl mx-auto px-4'>
@@ -146,7 +142,7 @@ export default function ContactPage() {
                       type='text'
                       id='firstName'
                       name='firstName'
-                      className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent'
+                      className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent placeholder:text-gray-500'
                       placeholder='Enter your first name'
                     />
                   </div>
@@ -161,7 +157,7 @@ export default function ContactPage() {
                       type='text'
                       id='lastName'
                       name='lastName'
-                      className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent'
+                      className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent placeholder:text-gray-500'
                       placeholder='Enter your last name'
                     />
                   </div>
@@ -178,7 +174,7 @@ export default function ContactPage() {
                     type='email'
                     id='email'
                     name='email'
-                    className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent'
+                    className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent placeholder:text-gray-500'
                     placeholder='Enter your email address'
                   />
                 </div>
@@ -194,7 +190,7 @@ export default function ContactPage() {
                     type='tel'
                     id='phone'
                     name='phone'
-                    className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent'
+                    className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent placeholder:text-gray-500'
                     placeholder='Enter your phone number'
                   />
                 </div>
@@ -209,7 +205,7 @@ export default function ContactPage() {
                   <select
                     id='subject'
                     name='subject'
-                    className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent'
+                    className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-gray-900'
                   >
                     <option value=''>Select a subject</option>
                     <option value='general'>General Inquiry</option>
@@ -231,7 +227,7 @@ export default function ContactPage() {
                     id='message'
                     name='message'
                     rows={5}
-                    className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent'
+                    className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent placeholder:text-gray-500'
                     placeholder='Tell us about your travel plans or any questions you have...'
                   ></textarea>
                 </div>
@@ -308,8 +304,6 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

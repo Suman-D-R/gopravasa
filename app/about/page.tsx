@@ -2,8 +2,6 @@
 
 import React from 'react';
 import Image from 'next/image';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 import {
   IconUsers,
   IconAward,
@@ -16,8 +14,6 @@ import {
 export default function AboutPage() {
   return (
     <div className='w-full min-h-screen'>
-      <Header />
-
       {/* Hero Section */}
       <div className='relative pt-20 pb-16 bg-gradient-to-br from-orange-50 to-white'>
         <div className='max-w-7xl mx-auto px-4'>
@@ -223,8 +219,6 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

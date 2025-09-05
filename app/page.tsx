@@ -1,6 +1,12 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  Fragment,
+} from 'react';
 import Image from 'next/image';
 import {
   IconMapPin,
@@ -13,8 +19,6 @@ import {
   IconCheck,
   IconChevronLeft,
   IconChevronRight,
-  IconX,
-  IconZoomIn,
 } from '@tabler/icons-react';
 import Footer from './components/Footer';
 import TripCard from './components/TripCard';
@@ -58,9 +62,6 @@ function Page() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const reviewsScrollRef = useRef<HTMLDivElement>(null);
-  const [selectedImage, setSelectedImage] = useState<
-    (typeof galleryImages)[0] | null
-  >(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
@@ -306,20 +307,20 @@ function Page() {
         <div className='absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4 sm:px-6 lg:px-8'>
           <div className='max-w-4xl mx-auto'>
             <div className='mb-4 sm:mb-6'>
-              <span className='text-sm sm:text-lg font-medium tracking-wider'>
+              <span className='text-sm sm:text-lg font-medium tracking-wider fadeUp'>
                 WELCOME TO GOPRAVASA
               </span>
             </div>
-            <h1 className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 leading-tight'>
+            <h1 className='text-3xl sm:text-4xl md:text-5xl fadeUp lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 leading-tight'>
               Explore More, Travel Smarter, Create Memories!
             </h1>
-            <p className='text-base sm:text-lg md:text-xl lg:text-2xl mb-8 sm:mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed px-2'>
+            <p className='text-base sm:text-lg md:text-xl lg:text-2xl fadeUp mb-8 sm:mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed px-2'>
               Discover stunning destinations at unbeatable value. Plan your
               journey with us and enjoy unforgettable experiences
             </p>
 
             {/* Central Search Bar */}
-            <div className='flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-3 md:space-x-4 max-w-2xl mx-auto px-2'>
+            <div className='flex fadeUp flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-3 md:space-x-4 max-w-2xl mx-auto px-2'>
               <div className='relative w-full sm:w-auto sm:flex-1 border border-gray-300 rounded-full'>
                 <input
                   type='text'
@@ -392,24 +393,9 @@ function Page() {
           {/* Desktop Grid */}
           <div className='hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8'>
             {trips.map((trip) => (
-              <TripCard
-                key={trip.id}
-                id={trip.id}
-                title={trip.title}
-                description={trip.description}
-                image={trip.image}
-                duration={trip.duration}
-                price={trip.price}
-                rating={trip.rating}
-                badge={trip.badge}
-                badgeColor={trip.badgeColor}
-                totalSets={trip.totalSets}
-                occupiedSets={trip.occupiedSets}
-                departureAirport={trip.departureAirport}
-                arrivalAirport={trip.arrivalAirport}
-                numberOfDays={trip.numberOfDays}
-                variant='default'
-              />
+              <Fragment key={trip.id}>
+                <TripCard trip={trip} />
+              </Fragment>
             ))}
           </div>
 
@@ -426,23 +412,7 @@ function Page() {
                   className='snap-center shrink-0 w-full h-full'
                 >
                   <div className='h-full'>
-                    <TripCard
-                      id={trip.id}
-                      title={trip.title}
-                      description={trip.description}
-                      image={trip.image}
-                      duration={trip.duration}
-                      price={trip.price}
-                      rating={trip.rating}
-                      badge={trip.badge}
-                      badgeColor={trip.badgeColor}
-                      totalSets={trip.totalSets}
-                      occupiedSets={trip.occupiedSets}
-                      departureAirport={trip.departureAirport}
-                      arrivalAirport={trip.arrivalAirport}
-                      numberOfDays={trip.numberOfDays}
-                      variant='mobile'
-                    />
+                    <TripCard trip={trip} />
                   </div>
                 </div>
               ))}
@@ -640,120 +610,50 @@ function Page() {
               Travel Gallery
             </h2>
             <p className='text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4'>
-              Explore the beauty of our destinations through stunning photos
-              from our travelers
+              Explore our collection of stunning travel moments and get inspired
+              for your next adventure
             </p>
           </div>
 
-          {/* Category Filter */}
-          <div className='flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-12'>
-            {[
-              'All',
-              'Beach',
-              'Culture',
-              'Food',
-              'Adventure',
-              'Nature',
-              'Wildlife',
-            ].map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-full text-sm sm:text-base font-medium transition-all duration-200 ${
-                  selectedCategory === category
-                    ? 'bg-orange-500 text-white shadow-lg'
-                    : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
-                }`}
+          {/* Gallery Grid */}
+          <div className='grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6'>
+            {galleryImages.map((image, index) => (
+              <div
+                key={image.id}
+                className='group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105'
               >
-                {category}
-              </button>
+                <div className='aspect-square relative'>
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    className='object-cover group-hover:scale-110 transition-transform duration-300'
+                    sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw'
+                  />
+                </div>
+                <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4'>
+                  <h3 className='text-white font-semibold text-sm sm:text-base mb-1'>
+                    {image.title}
+                  </h3>
+                  <p className='text-white/80 text-xs sm:text-sm'>
+                    {image.location}
+                  </p>
+                </div>
+              </div>
             ))}
           </div>
 
-          {/* Gallery Grid */}
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6'>
-            {galleryImages
-              .filter(
-                (image) =>
-                  selectedCategory === 'All' ||
-                  image.category === selectedCategory
-              )
-              .map((image) => (
-                <div
-                  key={image.id}
-                  className='group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer'
-                  onClick={() => setSelectedImage(image)}
-                >
-                  <div className='aspect-square relative'>
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      fill
-                      className='object-cover transition-transform duration-300 group-hover:scale-110'
-                    />
-                    <div className='absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center'>
-                      <IconZoomIn className='w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300' />
-                    </div>
-                  </div>
-                  <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4'>
-                    <h3 className='text-white font-semibold text-sm sm:text-base mb-1'>
-                      {image.title}
-                    </h3>
-                    <p className='text-gray-200 text-xs sm:text-sm flex items-center'>
-                      <IconMapPin className='w-3 h-3 sm:w-4 sm:h-4 mr-1' />
-                      {image.location}
-                    </p>
-                  </div>
-                </div>
-              ))}
-          </div>
-
-          {/* View More Button */}
+          {/* View Gallery Button */}
           <div className='text-center mt-8 sm:mt-12'>
             <button
               onClick={() => router.push('/gallery')}
               className='bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl'
             >
-              View More Photos
+              View Full Gallery
             </button>
           </div>
         </div>
       </div>
-
-      {/* Image Modal */}
-      {selectedImage && (
-        <div className='fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4'>
-          <div className='relative max-w-4xl max-h-full'>
-            <button
-              onClick={() => setSelectedImage(null)}
-              className='absolute top-4 right-4 z-10 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-2 transition-all duration-200'
-            >
-              <IconX className='w-6 h-6 text-white' />
-            </button>
-            <div className='relative'>
-              <Image
-                src={selectedImage.src}
-                alt={selectedImage.alt}
-                width={800}
-                height={600}
-                className='rounded-lg shadow-2xl'
-              />
-              <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-6 rounded-b-lg'>
-                <h3 className='text-white text-xl sm:text-2xl font-bold mb-2'>
-                  {selectedImage.title}
-                </h3>
-                <p className='text-gray-200 text-sm sm:text-base flex items-center mb-2'>
-                  <IconMapPin className='w-4 h-4 mr-2' />
-                  {selectedImage.location}
-                </p>
-                <span className='inline-block bg-orange-500 text-white px-3 py-1 rounded-full text-xs sm:text-sm font-medium'>
-                  {selectedImage.category}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Reviews Section */}
       <div className='py-12 sm:py-16 md:py-20 bg-gradient-to-br from-white to-gray-50'>
@@ -908,13 +808,14 @@ function Page() {
           <p className='text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto'>
             Our support team is here to help you with any questions or issues.
           </p>
-          <button className='bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl'>
+          <button
+            onClick={() => router.push('/contact')}
+            className='bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl'
+          >
             Contact Support
           </button>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

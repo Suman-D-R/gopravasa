@@ -100,10 +100,10 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href='/tours'
+                  href='/gallery'
                   className='text-gray-600 hover:text-orange-400 transition-colors'
                 >
-                  Tours & Packages
+                  Gallery
                 </Link>
               </li>
               <li>
@@ -133,50 +133,50 @@ export default function Footer() {
             <ul className='space-y-3'>
               <li>
                 <Link
-                  href='/destinations/thailand'
+                  href='/trip/thailand-adventure'
                   className='text-gray-600 hover:text-orange-400 transition-colors'
                 >
-                  Thailand
+                  Thailand Adventure
                 </Link>
               </li>
               <li>
                 <Link
-                  href='/destinations/bhutan'
+                  href='/trip/bhutan-mystical'
                   className='text-gray-600 hover:text-orange-400 transition-colors'
                 >
-                  Bhutan
+                  Bhutan Mystical
                 </Link>
               </li>
               <li>
                 <Link
-                  href='/destinations/japan'
+                  href='/trip/dubai-abu-dhabi-discovery'
                   className='text-gray-600 hover:text-orange-400 transition-colors'
                 >
-                  Japan
+                  Dubai & Abu Dhabi
                 </Link>
               </li>
               <li>
                 <Link
-                  href='/destinations/bali'
+                  href='/trip/andaman-islands-paradise'
                   className='text-gray-600 hover:text-orange-400 transition-colors'
                 >
-                  Bali
+                  Andaman Islands
                 </Link>
               </li>
               <li>
                 <Link
-                  href='/destinations/singapore'
+                  href='/trip/odisha-cultural-heritage'
                   className='text-gray-600 hover:text-orange-400 transition-colors'
                 >
-                  Singapore
+                  Odisha Heritage
                 </Link>
               </li>
               <li>
                 <Link
-                  href='/destinations/maldives'
+                  href='/destinations'
                   className='text-gray-600 hover:text-orange-400 transition-colors'
                 >
-                  Maldives
+                  View All Destinations
                 </Link>
               </li>
             </ul>
@@ -247,20 +247,7 @@ export default function Footer() {
           <div className='flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0'>
             <div className='text-center md:text-left'>
               <p className='text-gray-500 text-sm'>
-                © 2024 GoPravasa. All rights reserved. |
-                <Link
-                  href='/privacy'
-                  className='hover:text-orange-600 transition-colors ml-1'
-                >
-                  Privacy Policy
-                </Link>{' '}
-                |
-                <Link
-                  href='/terms'
-                  className='hover:text-orange-600 transition-colors ml-1'
-                >
-                  Terms of Service
-                </Link>
+                © 2024 GoPravasa. All rights reserved. | Licensed Travel Agency
               </p>
             </div>
             <div className='flex items-center space-x-4 text-sm text-gray-500'>
