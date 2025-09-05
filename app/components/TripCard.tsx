@@ -168,6 +168,11 @@ const TripCard: React.FC<TripCardProps> = ({ trip }) => {
   const badgePosition =
     variant === 'mobile' ? 'bottom-4 left-4' : 'top-4 right-4';
 
+  const handleCallClick = () => {
+    const phoneNumber = '+919901101912';
+    window.open(`tel:${phoneNumber}`, '_self');
+  };
+
   return (
     <div className='group relative rounded-2xl border border-gray-200 transition-all duration-300 overflow-hidden transform hover:-translate-y-2 h-full'>
       <div className='relative h-64 overflow-hidden'>
@@ -260,7 +265,10 @@ const TripCard: React.FC<TripCardProps> = ({ trip }) => {
           </div>
 
           <div className='flex items-center space-x-2'>
-            <div className='text-sm sm:text-base font-semibold text-orange-500 whitespace-nowrap border border-orange-500 rounded-full px-4 sm:px-6 py-2'>
+            <div
+              onClick={handleCallClick}
+              className='text-sm sm:text-base font-semibold text-orange-500 whitespace-nowrap border border-orange-500 rounded-full px-4 sm:px-6 py-2'
+            >
               Call Now
             </div>
             <Link
