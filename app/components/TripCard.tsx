@@ -6,6 +6,71 @@ import Link from 'next/link';
 import { IconStar, IconClock, IconUsers, IconPlane } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
 
+// Star Rating Component
+const StarRating: React.FC<{ rating: number; size?: 'sm' | 'md' | 'lg' }> = ({
+  rating,
+  size = 'sm',
+}) => {
+  const sizeClasses = {
+    sm: 'w-3 h-3',
+    md: 'w-4 h-4',
+    lg: 'w-5 h-5',
+  };
+
+  const renderStars = () => {
+    const stars = [];
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 !== 0;
+
+    // Render full stars
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(
+        <IconStar
+          key={i}
+          className={`${sizeClasses[size]} text-yellow-400 fill-current`}
+        />
+      );
+    }
+
+    // Render half star if needed
+    if (hasHalfStar) {
+      stars.push(
+        <div key='half' className='relative'>
+          <IconStar className={`${sizeClasses[size]} text-gray-300`} />
+          <div
+            className='absolute inset-0 overflow-hidden'
+            style={{ width: '50%' }}
+          >
+            <IconStar
+              className={`${sizeClasses[size]} text-yellow-400 fill-current`}
+            />
+          </div>
+        </div>
+      );
+    }
+
+    // Render empty stars to complete 5 stars
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+    for (let i = 0; i < emptyStars; i++) {
+      stars.push(
+        <IconStar
+          key={`empty-${i}`}
+          className={`${sizeClasses[size]} text-gray-300`}
+        />
+      );
+    }
+
+    return stars;
+  };
+
+  return (
+    <div className='flex items-center space-x-1'>
+      {renderStars()}
+      <span className='text-sm font-semibold text-gray-700 ml-1'>{rating}</span>
+    </div>
+  );
+};
+
 interface Trip {
   id: string;
   title: string;
@@ -14,6 +79,8 @@ interface Trip {
   duration: string;
   groupSize?: string;
   price: string;
+  originalPrice?: string;
+  discountedPrice?: string;
   rating: number;
   badge: string;
   badgeColor: string;
@@ -88,7 +155,7 @@ const CountdownTimer: React.FC<{ targetDate: string }> = ({ targetDate }) => {
   }
 
   return (
-    <div className='flex items-center space-x-1 text-xs'>
+    <div className='flex items-center space-x-1 text-sm sm:text-base'>
       {timeLeft.days > 0 && (
         <motion.div
           key={`days-${timeLeft.days}`}
@@ -153,6 +220,8 @@ const TripCard: React.FC<TripCardProps> = ({ trip }) => {
     duration,
     groupSize,
     price,
+    originalPrice,
+    discountedPrice,
     rating,
     badge,
     badgeColor,
@@ -174,43 +243,36 @@ const TripCard: React.FC<TripCardProps> = ({ trip }) => {
   };
 
   return (
-    <div className='group relative rounded-2xl border border-gray-200 transition-all duration-300 overflow-hidden transform hover:-translate-y-2 h-full'>
-      <div className='relative h-64 overflow-hidden'>
+    <div className='group  relative rounded-2xl border border-gray-200 transition-all duration-300 transform hover:-translate-y-2 h-full'>
+      <div className='relative h-64 overflow-hidden  rounded-t-2xl'>
         <Image
           src={image}
           alt={`${title} Destination`}
           fill
           priority={true}
-          className='object-cover group-hover:scale-110 transition-transform duration-300'
+          className='object-cover  group-hover:scale-110 transition-transform duration-300'
         />
-
-        <div className={`absolute ${badgePosition}`}>
-          <span
-            className={`${badgeColor} text-white px-3 py-1 rounded-full text-sm font-semibold`}
-          >
-            {badge}
-          </span>
+        <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4'>
+          <p className='text-sm sm:text-base line-clamp-2 *:text-white font-medium'>
+            {description}
+          </p>
         </div>
       </div>
-
+      <div
+        className='ribbon'
+        style={{ '--c': badgeColor } as React.CSSProperties}
+      >
+        {badge}
+      </div>
       <div className='p-4 sm:p-6'>
-        <div className='flex items-center justify-between mb-3'>
+        <div className='flex flex-col items-start justify-between mb-3'>
           <h3 className='text-lg sm:text-xl font-bold text-gray-900'>
             {title}
           </h3>
-          <div className='flex items-center space-x-1'>
-            <IconStar className='w-4 h-4 text-yellow-400 fill-current' />
-            <span className='text-sm font-semibold text-gray-700'>
-              {rating}
-            </span>
-          </div>
+          <StarRating rating={rating} size='sm' />
         </div>
 
-        <p className='text-sm sm:text-base text-gray-600 mb-4 line-clamp-2'>
-          {description}
-        </p>
-
-        <div className='flex items-center justify-between text-xs sm:text-sm text-gray-500 mb-3'>
+        <div className='flex items-center justify-between text-sm sm:text-base text-gray-500 mb-3'>
           <div className='flex items-center space-x-1'>
             <IconClock className='w-3 h-3 sm:w-4 sm:h-4' />
             {countdownTo ? (
@@ -221,48 +283,70 @@ const TripCard: React.FC<TripCardProps> = ({ trip }) => {
           </div>
           <div className='flex items-center space-x-1'>
             {totalSets && occupiedSets ? (
-              <div className='flex items-center space-x-1 font-bold'>
+              <div className='flex items-center space-x-1 '>
+                <IconUsers className='w-3 h-3 sm:w-4 sm:h-4' size={2} />
                 <span>
                   Sets left:{' '}
                   <span className=' text-green-600'>{totalSets}</span> /{' '}
                   {occupiedSets + totalSets}
                 </span>
-                <IconUsers className='w-3 h-3 sm:w-4 sm:h-4' />
               </div>
             ) : groupSize ? (
               <div className='flex items-center space-x-1'>
-                <IconUsers className='w-3 h-3 sm:w-4 sm:h-4' />
                 <span>{groupSize}</span>
               </div>
             ) : null}
           </div>
         </div>
 
-        {/* Flight Route Information */}
-        {departureAirport && arrivalAirport && (
-          <div className='mb-3 p-2 bg-orange-50 rounded-lg border border-orange-200'>
-            <div className='flex items-center space-x-2 text-xs sm:text-sm text-orange-700'>
-              <IconPlane className='w-3 h-3 sm:w-4 sm:h-4 text-orange-600' />
-              <div className='flex-1'>
-                <div className='font-medium text-orange-800'>Flight Route:</div>
-                <div className='text-orange-600'>
-                  {departureAirport.split(',')[0]} →{' '}
-                  {arrivalAirport.split(',')[0]}
+        <div className='flex flex-col   gap-3'>
+          <div className='flex items-center space-x-2 flex-wrap '>
+            {/* Discounted Price - Main Price */}
+            {discountedPrice && (
+              <>
+                <span className='text-2xl sm:text-3xl font-bold text-green-600 '>
+                  {discountedPrice}
+                </span>
+                <div className='flex items-center space-x-2 flex-col'>
+                  <span className='text-sm font-semibold line-through text-red-500'>
+                    {originalPrice}
+                  </span>
+                </div>
+                <span className='text-xs sm:text-sm text-gray-500'>
+                  per person
+                </span>
+              </>
+            )}
+
+            {/* Fallback to regular price if no discount */}
+            {!discountedPrice && (
+              <>
+                <span className='text-xl sm:text-2xl font-bold text-gray-900'>
+                  {price}
+                </span>
+                <span className='text-xs sm:text-sm text-gray-500'>
+                  per person
+                </span>
+              </>
+            )}
+          </div>
+          {/* Flight Route Information */}
+          {departureAirport && arrivalAirport && (
+            <div className='mb-3 p-2 bg-orange-50 rounded-lg border border-orange-200'>
+              <div className='flex items-center space-x-2 text-xs sm:text-sm text-orange-700'>
+                <IconPlane className='w-3 h-3 sm:w-4 sm:h-4 text-orange-600' />
+                <div className='flex-1'>
+                  <div className='font-medium text-orange-800'>
+                    Flight Route:
+                  </div>
+                  <div className='text-orange-600'>
+                    {departureAirport.split(',')[0]} →{' '}
+                    {arrivalAirport.split(',')[0]}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
-
-        <div className='flex flex-col   gap-3'>
-          <div>
-            <span className='text-xl sm:text-2xl font-bold text-gray-900'>
-              {price}
-            </span>
-            <span className='text-xs sm:text-sm text-gray-500 ml-1'>
-              per person
-            </span>
-          </div>
+          )}
 
           <div className='flex items-center space-x-2'>
             <div
