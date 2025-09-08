@@ -7,14 +7,15 @@ import { IconStar, IconClock, IconUsers, IconPlane } from '@tabler/icons-react';
 import { motion } from 'framer-motion';
 
 // Star Rating Component
-const StarRating: React.FC<{ rating: number; size?: 'sm' | 'md' | 'lg' }> = ({
-  rating,
-  size = 'sm',
-}) => {
+const StarRating: React.FC<{
+  rating: number;
+  size?: 'sm' | 'md' | 'lg' | 'responsive';
+}> = ({ rating, size = 'sm' }) => {
   const sizeClasses = {
     sm: 'w-3 h-3',
     md: 'w-4 h-4',
     lg: 'w-5 h-5',
+    responsive: 'w-3 h-3 lg:w-5 lg:h-5',
   };
 
   const renderStars = () => {
@@ -243,14 +244,14 @@ const TripCard: React.FC<TripCardProps> = ({ trip }) => {
   };
 
   return (
-    <div className='group  relative rounded-2xl border border-gray-200 transition-all duration-300 transform hover:-translate-y-2 h-full'>
-      <div className='relative h-64 overflow-hidden  rounded-t-2xl'>
+    <div className='group relative rounded-2xl border border-gray-200 transition-all duration-300 transform hover:-translate-y-2 h-full'>
+      <div className='relative h-64 overflow-hidden rounded-t-2xl'>
         <Image
           src={image}
           alt={`${title} Destination`}
           fill
           priority={true}
-          className='object-cover  group-hover:scale-110 transition-transform duration-300'
+          className='object-cover group-hover:scale-110 transition-transform duration-300'
         />
         <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4'>
           <p className='text-sm sm:text-base line-clamp-2 *:text-white font-medium'>
@@ -265,30 +266,51 @@ const TripCard: React.FC<TripCardProps> = ({ trip }) => {
         {badge}
       </div>
       <div className='p-4 sm:p-6'>
-        <div className='flex flex-col items-start justify-between mb-3'>
+        <div className='flex lg:flex-col gap-2 lg:items-start items-center justify-between mb-3'>
           <h3 className='text-lg sm:text-xl font-bold text-gray-900'>
             {title}
           </h3>
-          <StarRating rating={rating} size='sm' />
+          <StarRating rating={rating} size='responsive' />
         </div>
+        <div className='flex items-center space-x-2 flex-wrap'>
+          {/* Discounted Price - Main Price */}
+          {discountedPrice && (
+            <>
+              <span className='text-2xl sm:text-3xl font-bold text-green-600'>
+                {discountedPrice}
+              </span>
+              <span className='text-sm font-semibold line-through text-red-500'>
+                {originalPrice}
+              </span>
+              <span className='text-xs sm:text-sm text-gray-500'>
+                per person
+              </span>
+            </>
+          )}
 
-        <div className='flex items-center justify-between text-sm sm:text-base text-gray-500 mb-3'>
-          <div className='flex items-center space-x-1'>
-            <IconClock className='w-3 h-3 sm:w-4 sm:h-4' />
-            {countdownTo ? (
-              <CountdownTimer targetDate={countdownTo} />
-            ) : (
-              <span>{duration}</span>
-            )}
-          </div>
+          {/* Fallback to regular price if no discount */}
+          {!discountedPrice && (
+            <>
+              <span className='text-xl sm:text-2xl font-bold text-gray-900'>
+                {price}
+              </span>
+              <span className='text-xs sm:text-sm text-gray-500'>
+                per person
+              </span>
+            </>
+          )}
+        </div>
+        <div className='flex items-center justify-between text-sm sm:text-base text-gray-500 my-2'>
           <div className='flex items-center space-x-1'>
             {totalSets && occupiedSets ? (
-              <div className='flex items-center space-x-1 '>
+              <div className='flex items-center space-x-1'>
                 <IconUsers className='w-3 h-3 sm:w-4 sm:h-4' size={2} />
                 <span>
                   Sets left:{' '}
-                  <span className=' text-green-600'>{totalSets}</span> /{' '}
-                  {occupiedSets + totalSets}
+                  <span className='text-green-600 font-semibold'>
+                    {totalSets}
+                  </span>{' '}
+                  / {occupiedSets + totalSets}
                 </span>
               </div>
             ) : groupSize ? (
@@ -297,39 +319,17 @@ const TripCard: React.FC<TripCardProps> = ({ trip }) => {
               </div>
             ) : null}
           </div>
-        </div>
-
-        <div className='flex flex-col   gap-3'>
-          <div className='flex items-center space-x-2 flex-wrap '>
-            {/* Discounted Price - Main Price */}
-            {discountedPrice && (
-              <>
-                <span className='text-2xl sm:text-3xl font-bold text-green-600 '>
-                  {discountedPrice}
-                </span>
-                <div className='flex items-center space-x-2 flex-col'>
-                  <span className='text-sm font-semibold line-through text-red-500'>
-                    {originalPrice}
-                  </span>
-                </div>
-                <span className='text-xs sm:text-sm text-gray-500'>
-                  per person
-                </span>
-              </>
-            )}
-
-            {/* Fallback to regular price if no discount */}
-            {!discountedPrice && (
-              <>
-                <span className='text-xl sm:text-2xl font-bold text-gray-900'>
-                  {price}
-                </span>
-                <span className='text-xs sm:text-sm text-gray-500'>
-                  per person
-                </span>
-              </>
+          <div className='flex items-center space-x-1'>
+            <IconClock className='w-3 h-3 sm:w-4 sm:h-4' />
+            {countdownTo ? (
+              <CountdownTimer targetDate={countdownTo} />
+            ) : (
+              <span>{duration}</span>
             )}
           </div>
+        </div>
+
+        <div className='flex flex-col gap-3'>
           {/* Flight Route Information */}
           {departureAirport && arrivalAirport && (
             <div className='mb-3 p-2 bg-orange-50 rounded-lg border border-orange-200'>
@@ -357,7 +357,7 @@ const TripCard: React.FC<TripCardProps> = ({ trip }) => {
             </div>
             <Link
               href={linkHref}
-              className='bg-orange-500 hover:bg-orange-600 text-white px-4 sm:px-6 py-2 rounded-full text-sm sm:text-base font-semibold transition-colors w-full  text-center'
+              className='bg-orange-500 hover:bg-orange-600 text-white px-4 sm:px-6 py-2 rounded-full text-sm sm:text-base font-semibold transition-colors w-full text-center'
             >
               View More
             </Link>

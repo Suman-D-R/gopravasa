@@ -402,7 +402,7 @@ function Page() {
             <div
               ref={scrollRef}
               className='flex overflow-x-auto gap-4 snap-x snap-mandatory scroll-smooth scrollbar-hide -mx-4 px-4 '
-              style={{ height: '580px' }}
+              style={{ height: '540px' }}
             >
               {trips.map((trip) => (
                 <div

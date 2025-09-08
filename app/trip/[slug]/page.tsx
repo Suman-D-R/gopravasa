@@ -178,7 +178,7 @@ export default function TripPage() {
                   {trip.duration}
                 </p>
                 <p className='text-sm text-gray-500 mt-1'>
-                  {trip.numberOfDays} days
+                  {trip.numberOfDays} Day / {trip.numberOfNights} Night
                 </p>
               </div>
 
@@ -503,8 +503,6 @@ export default function TripPage() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }
