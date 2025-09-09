@@ -292,7 +292,7 @@ function Page() {
       <div className='relative w-full h-screen'>
         <div className='w-full h-full brightness-50'>
           <Image
-            className='w-full h-full object-cover zoom-in-out'
+            className='w-full h-full object-cover '
             src='/images/banner/Thailand2.webp'
             alt='Travel destination'
             width={1920}
