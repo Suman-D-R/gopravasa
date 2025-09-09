@@ -93,3 +93,18 @@ body {
      0 0/calc(101% - .5lh) 100%;
   background-repeat: no-repeat;   
 }
+
+.zoom-in-out {
+  animation: zoomInOut 30s ease-in-out infinite;
+}
+@keyframes zoomInOut {
+  0% {
+    transform: scale(1);
+  }
+50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
