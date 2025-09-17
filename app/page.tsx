@@ -287,7 +287,7 @@ function Page() {
   };
 
   return (
-    <div className='w-full min-h-screen relative'>
+    <div className='w-full h-full relative'>
       {/* Hero Section */}
       <div className='relative w-full h-screen'>
         <div className='w-full h-full brightness-50'>
