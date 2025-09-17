@@ -289,7 +289,7 @@ function Page() {
   return (
     <div className='w-full h-full relative'>
       {/* Hero Section */}
-      <div className='relative w-full h-screen'>
+      <div className='relative w-full h-svh'>
         <div className='w-full h-full brightness-50'>
           <Image
             className='w-full h-full object-cover '
